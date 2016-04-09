@@ -1,0 +1,51 @@
+## Assignment: ChacheMatrix and ChacheOlve functions with an example
+## created by Olinto Linares, SLC-UTAH
+
+## CahheMatrix: Create the "special" matrix
+## take the matrix inverse (only for a non-singular matrix). If results if in the CPU take
+## this value, if not take the inverse using solve() and put results in CPU
+
+
+#1. ChacheMatric
+makeCacheMatrix <- function(x = matrix()) {
+  inv <- NULL
+  set <- function(y) 
+    {
+    x <<- y
+    inv <<- NULL
+    }
+  get <- function() x
+  setinverse <- function(inverse) inv <<- inverse
+  getinverse <- function() inv
+  list(set=set, 
+       get=get, 
+       setinverse=setinverse,
+       getinverse=getinverse)
+}
+
+#2 Example with a 3x3 non-signular ,atrix
+x<-c(1,3,3,4,5,6,5,7,9)
+dim(x)<-c(3,3) ; # 3 by 3 matrix
+x
+
+mOlinto<-makeCacheMatrix(x) ; # Create the special matrix that can be save its inverse in the CPU memory
+mOlinto ; # Show Matrix
+
+#3. ChacheSolve
+cacheSolve <- function(x, ...) 
+  {
+  inv <- x$getinverse()
+  if(!is.null(inv)) {
+    message("Inverse is in Cache (CPU) Memory. Taking this value reduce time computaion")
+    return(inv)
+  }
+  data <- x$get()
+  inv <- solve(data)
+  message("Inverse is in Not in Cache (CPU) Memory. It is the first time taking the Matrix inverse")
+  x$setinverse(inv)
+  inv
+}
+
+#4. Show results
+mLinares<-cacheSolve(mOlinto)
+mLinares
